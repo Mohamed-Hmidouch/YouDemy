@@ -1,0 +1,41 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: YouDemy_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: YouDemy
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: YouDemy_phpadmin
+    restart: always
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: root_password
+    ports:
+      - "8080:80"
+
+  php:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    container_name: YouDemy_php
+    restart: always
+    volumes:
+      - .:/var/www/html
+      - ./:/app
+    ports:
+      - "80:80"
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data:
