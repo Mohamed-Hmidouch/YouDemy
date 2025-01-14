@@ -15,7 +15,6 @@
       <path value="$PROJECT_DIR$/vendor/composer" />
     </include_path>
   </component>
-  </component>
   <component name="PhpStanOptionsConfiguration">
     <option name="transferred" value="true" />
   </component>
