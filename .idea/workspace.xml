@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="5f034425-88a2-4f13-82ea-c0893bf87303" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Src/Classes/Categorie.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Src/Classes/Tag.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Src/Controllers/CategoriesController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Src/Controllers/TagsController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Src/Models/BaseModel.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Src/Models/CategoriesModel.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Src/Models/TagsModel.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Src/Views/Admin/index.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Src/Views/Enseignant/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Src/Classes/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Classes/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Src/Config/Database.php" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Config/Database.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Src/Controllers/Auth/LoginAuth.php" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Controllers/Auth/LoginAuth.php" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+    <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Mohamed-Hmidouch&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Mohamed-Hmidouch/YouDemy.git&quot;,
+    &quot;accountId&quot;: &quot;b1598d2b-6c00-4877-84be-af98c2c543e8&quot;
+  }
+}</component>
+  <component name="PhpDebugGeneral" break_at_first_line="true" />
+  <component name="PhpServers">
+    <servers>
+      <server host="localhost" id="f29c12b1-5c5a-4c83-8827-db5591502294" name="localhost" use_path_mappings="true">
+        <path_mappings>
+          <mapping local-root="$PROJECT_DIR$" remote-root="/var/www/html" />
+        </path_mappings>
+      </server>
+    </servers>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="C:\xampp\php\php.exe">
+    <include_path>
+      <path value="$PROJECT_DIR$/vendor/composer" />
+    </include_path>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="showPreview" value="true" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="2rckQCNklpfKSd6FUl8OxZXXrJm" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;PHP Script.script.php.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\youcode\Desktop\YouDemy\Src\Models" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-PS-243.22562.233" />
+        <option value="bundled-php-predefined-a98d8de5180a-7980c7aaca61-com.jetbrains.php.sharedIndexes-PS-243.22562.233" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5f034425-88a2-4f13-82ea-c0893bf87303" name="Changes" comment="" />
+      <created>1736865733558</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1736865733558</updated>
+      <workItem from="1736865737272" duration="19607000" />
+      <workItem from="1736927197384" duration="7772000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

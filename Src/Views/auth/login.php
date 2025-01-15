@@ -1,19 +1,24 @@
 <?php
+namespace App\Auth\login;
+require_once '../../../vendor/autoload.php';
+use App\Controllers\Auth\LoginAuth;
+session_start();
 if(isset($_POST["submit"])){
-
-    if (empty($donnees['email'] && $donnees['password'])) {
-        $donnees = filter_input_array(INPUT_POST, [
-            'email' => FILTER_VALIDATE_EMAIL,
-            'password' => FILTER_SANITIZE_STRING,
-        ]);
-        print_r($donnees);
-    } else {
-
-        echo "Adresse email and password empty  !";
-
+    $donnees = filter_input_array(INPUT_POST, [
+        'email' => FILTER_VALIDATE_EMAIL,
+        'password' => FILTER_DEFAULT,
+    ]);
+    if(empty($donnees["email"]) && empty($donnees["password"]))
+    {
+        echo "email or password is empty";
+    }else{
+        $email = $donnees["email"];
+        $password = $donnees["password"];
+        $authController = new LoginAuth();
+        $authController->login($email, $password);
     }
 
-}else{
+
 
 }
 ?>

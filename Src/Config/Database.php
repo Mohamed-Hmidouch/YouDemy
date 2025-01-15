@@ -16,7 +16,6 @@ abstract class Database
         try{
             $pdo = new Pdo(self::$dns,self::$username,self::$password);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            echo "l3ez ajmi";
         }catch(PdoException $e){
             error_log(date('Y-m-d H:i:s')."Database connection error ".$e->getMessage(),3,"error.log");
             throw new Exception("Database connection failed");
