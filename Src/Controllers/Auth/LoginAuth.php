@@ -27,13 +27,13 @@ class LoginAuth
 
 
             if ($user->getRole() == "admin") {
-                header("Location: ../../../Views/Admin/index.php");
+                header("Location: ../../../src/Views/Admin/index.php");
                 exit();
             } elseif ($user->getRole() == "Etudiant") {
                 header("Location: ../../../../src/Views/candidate/index.php");
                 exit();
-            } elseif ($user->getRole() == "Enseignant") {
-                header("Location: ../../../../src/Views/Enseignant/index.php");
+            } elseif ($user->getRole() == "enseignant") {
+                header("Location: ../../../src/Views/Enseignant/index.php");
                 exit();
             }
             ob_end_flush();
