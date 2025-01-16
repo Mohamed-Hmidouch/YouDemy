@@ -194,6 +194,7 @@ contentTypeRadios.forEach(radio => {
                 <h1 class="text-2xl font-bold text-primary font-serif">Youdemy</h1>
             </div>
 
+            
             <nav class="space-y-4">
                 <div class="group">
                     <a href="#" class="flex items-center space-x-3 text-neutral hover:text-primary p-3 rounded-lg transition-all duration-300 hover:bg-primary/10">
