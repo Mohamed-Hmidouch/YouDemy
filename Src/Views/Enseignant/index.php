@@ -1,7 +1,7 @@
 <?php
 namespace App\Views;
 require_once __DIR__ ."/../../../vendor/autoload.php";
-
+use App\Controllers\CourseController;
 
 use App\Controllers\CategoriesController;
 use App\Controllers\TagsController;
@@ -23,12 +23,14 @@ if (isset($_SESSION['categories']) && isset($_SESSION['tags'])) {
 } else {
     echo "No session.";
 }
+
 ?>
 <?php
+
+use Exception;
 if(isset($_POST["submit"])){
     $titre = $_POST['titre'];
     $description = $_POST['description'];
-    $categorie_id = $_POST['categorie'];
     $selectedTags= $_POST['tags_selected'];
     $enseignant_id = $_SESSION['user']['id'];
     $tagsArray = explode(',', $selectedTags);
@@ -42,6 +44,14 @@ if(isset($_POST["submit"])){
     }, $tagsArray);
     $tagsIdsString = implode(',', $validTagIds);
     $tagsSelectedIds = $_POST['tags_selected_ids'];
+    $courseController = new CourseController();
+    try {
+        $postData = $_POST;
+        $courseId = $courseController->createCourse($postData, $_SESSION['tags']);
+        echo "Cours créé avec succès. ID : " . $courseId;
+    } catch (Exception $e) {
+        echo "Erreur : " . $e->getMessage();
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -144,21 +154,26 @@ if(isset($_POST["submit"])){
             }
 
             // Gestion dynamique du type de contenu
-            const contentTypeRadios = document.querySelectorAll('input[name="content_type"]');
-            const videoContent = document.getElementById('video_content');
-            const textContent = document.getElementById('text_content');
+const contentTypeRadios = document.querySelectorAll('input[type="radio"]');
+const videoContentDiv = document.getElementById('video_content');
+const textContentDiv = document.getElementById('text_content');
 
-            contentTypeRadios.forEach(radio => {
-                radio.addEventListener('change', function() {
-                    if (this.value === 'video') {
-                        videoContent.classList.remove('hidden');
-                        textContent.classList.add('hidden');
-                    } else {
-                        videoContent.classList.add('hidden');
-                        textContent.classList.remove('hidden');
-                    }
-                });
-            });
+contentTypeRadios.forEach(radio => {
+    radio.addEventListener('change', function() {
+        if (this.value === 'video') {
+            videoContentDiv.classList.remove('hidden');
+            textContentDiv.classList.add('hidden');
+            videoContentDiv.querySelector('input[name="contenu"]').disabled = false;
+            textContentDiv.querySelector('textarea[name="contenu"]').disabled = true;
+        } else if (this.value === 'text') {
+            textContentDiv.classList.remove('hidden');
+            videoContentDiv.classList.add('hidden');
+            textContentDiv.querySelector('textarea[name="contenu"]').disabled = false;
+            videoContentDiv.querySelector('input[name="contenu"]').disabled = true;
+        }
+    });
+});
+
 
             // Fonction pour scroller vers le formulaire
             window.scrollToForm = function() {
@@ -187,7 +202,7 @@ if(isset($_POST["submit"])){
                     </a>
                 </div>
                 <div class="group">
-                    <a href="#" class="flex items-center space-x-3 text-neutral hover:text-primary p-3 rounded-lg transition-all duration-300 hover:bg-primary/10">
+                    <a href="./Course.php" class="flex items-center space-x-3 text-neutral hover:text-primary p-3 rounded-lg transition-all duration-300 hover:bg-primary/10">
                         <i class="fas fa-book text-xl"></i>
                         <span class="font-medium">Mes Cours</span>
                     </a>
@@ -291,7 +306,7 @@ if(isset($_POST["submit"])){
                         <div>
                             <label class="block text-neutral font-medium mb-2">Catégorie</label>
 
-                            <select name="categorie" value="id" class="w-full border border-base-300 rounded-lg p-3 focus:outline-none focus:border-primary">
+                            <select name="categorie_id" value="id" class="w-full border border-base-300 rounded-lg p-3 focus:outline-none focus:border-primary">
                                 <?php
                                     foreach ($categories as $categorie) { ?>
                                         <option value="<?php echo $categorie['id']; ?>"><?php echo $categorie['titre']; ?></option>
@@ -336,19 +351,19 @@ if(isset($_POST["submit"])){
                             ?>
                         </div>
                         <small class="text-gray-500 text-sm">Cliquez sur un tag pour le sélectionner</small>
-                        <input type="hidden" name="tags_selected_ids" value="<?= htmlspecialchars($tagsIdsString) ?>">
+                        <input type="hidden" name="tags_selected_ids" value="<?= htmlspecialchars($tagsIdsString ?? '') ?>">
                     </div>
 
 
-                    <div>
+                    <!-- <div>
                         <label class="block text-neutral font-medium mb-2">Type de Contenu</label>
                         <div class="flex space-x-4">
                             <label class="flex items-center space-x-2">
-                                <input type="radio" name="content_type" value="video" class="text-primary">
+                                <input type="radio"  value="video" class="text-primary">
                                 <span>Vidéo</span>
                             </label>
                             <label class="flex items-center space-x-2">
-                                <input type="radio" name="content_type" value="text" class="text-primary">
+                                <input type="radio"  value="text" class="text-primary">
                                 <span>Texte</span>
                             </label>
                         </div>
@@ -356,13 +371,37 @@ if(isset($_POST["submit"])){
 
                     <div id="video_content" class="hidden">
                         <label class="block text-neutral font-medium mb-2">URL de la Vidéo</label>
-                        <input type="url" class="w-full border border-base-300 rounded-lg p-3 focus:outline-none focus:border-primary" placeholder="https://...">
+                        <input type="url" name="contenu" class="w-full border border-base-300 rounded-lg p-3 focus:outline-none focus:border-primary" placeholder="https://...">
                     </div>
 
                     <div id="text_content" class="hidden">
                         <label class="block text-neutral font-medium mb-2">Contenu du Cours</label>
-                        <textarea class="w-full border border-base-300 rounded-lg p-3 focus:outline-none focus:border-primary" rows="6" placeholder="Rédigez votre cours..."></textarea>
-                    </div>
+                        <textarea name="contenu" class="w-full border border-base-300 rounded-lg p-3 focus:outline-none focus:border-primary" rows="6" placeholder="Rédigez votre cours..."></textarea>
+                    </div> -->
+                    <div>
+    <label class="block text-neutral font-medium mb-2">Type de Contenu</label>
+    <div class="flex space-x-4">
+        <label class="flex items-center space-x-2">
+            <input type="radio" name="type_contenu" value="video" class="text-primary">
+            <span>Vidéo</span>
+        </label>
+        <label class="flex items-center space-x-2">
+            <input type="radio" name="type_contenu" value="text" class="text-primary">
+            <span>Texte</span>
+        </label>
+    </div>
+</div>
+
+<div id="video_content" class="hidden">
+    <label class="block text-neutral font-medium mb-2">URL de la Vidéo</label>
+    <input type="url" name="contenu" class="w-full border border-base-300 rounded-lg p-3 focus:outline-none focus:border-primary" placeholder="https://...">
+</div>
+
+<div id="text_content" class="hidden">
+    <label class="block text-neutral font-medium mb-2">Contenu du Cours</label>
+    <textarea name="contenu" class="w-full border border-base-300 rounded-lg p-3 focus:outline-none focus:border-primary" rows="6" placeholder="Rédigez votre cours..."></textarea>
+</div>
+
 
                     <div>
                         <label class="block text-neutral font-medium mb-2">Description</label>

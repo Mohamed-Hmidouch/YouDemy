@@ -7,7 +7,7 @@ class Categorie{
     private $created_at;
     private $updated_at;
 
-    public function __construct($id, $titre,$nombre_cours, $created_at='', $updated_at='') {
+    public function __construct($id, $titre,$nombre_cours = 0, $created_at='', $updated_at='') {
         $this->id = $id;
         $this->titre = $titre;
         $this->nombre_cours = $nombre_cours;
