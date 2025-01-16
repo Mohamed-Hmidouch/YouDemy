@@ -3,7 +3,7 @@ namespace App\Models;
 require_once __DIR__. "/../../vendor/autoload.php";
 use App\Classes\Tag;
 use PDO;
-
+use PDOException;
 
 
 class TagsModel extends BaseModel

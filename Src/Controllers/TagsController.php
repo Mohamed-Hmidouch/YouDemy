@@ -14,7 +14,7 @@ class TagsController
         $TagsModel = new TagsModel();
         $tags = $TagsModel->findAll();
         if ($tags == null) {
-            echo "No Categories found";
+            echo "No tags found found";
         } else {
             $_SESSION['tags'] = array_map(function($Tag) {
                 return [
