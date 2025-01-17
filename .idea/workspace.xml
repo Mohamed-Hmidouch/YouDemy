@@ -5,15 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5f034425-88a2-4f13-82ea-c0893bf87303" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Src/Classes/Course.php" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Classes/Course.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Src/Controllers/CourseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Controllers/CourseController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Src/Controllers/TagsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Controllers/TagsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Src/Models/BaseModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Models/BaseModel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Src/Models/CourseModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Models/CourseModel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Src/Views/Enseignant/Course.php" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Views/Enseignant/Course.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Src/Views/Enseignant/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Views/Enseignant/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Src/Controllers/Auth/LoginAuth.php" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Controllers/Auth/LoginAuth.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,25 +59,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "PHP Script.script.php.executor": "Debug",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;PHP Script.script.php.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql_aurora"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql_aurora&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\youcode\Desktop\YouDemy\Src\Models" />
@@ -92,8 +86,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-PS-243.22562.233" />
-        <option value="bundled-php-predefined-a98d8de5180a-7980c7aaca61-com.jetbrains.php.sharedIndexes-PS-243.22562.233" />
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-WS-243.22562.222" />
       </set>
     </attachedChunks>
   </component>
@@ -111,6 +104,7 @@
       <workItem from="1737060680057" duration="718000" />
       <workItem from="1737061442585" duration="169000" />
       <workItem from="1737069450806" duration="1501000" />
+      <workItem from="1737109789345" duration="935000" />
     </task>
     <servers />
   </component>

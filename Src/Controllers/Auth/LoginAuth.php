@@ -29,8 +29,8 @@ class LoginAuth
             if ($user->getRole() == "admin") {
                 header("Location: ../../../src/Views/Admin/index.php");
                 exit();
-            } elseif ($user->getRole() == "Etudiant") {
-                header("Location: ../../../../src/Views/candidate/index.php");
+            } elseif ($user->getRole() == "etudiant") {
+                header("Location: ../../../../src/Views/Etudiant/index.php");
                 exit();
             } elseif ($user->getRole() == "enseignant") {
                 header("Location: ../../../src/Views/Enseignant/index.php");
