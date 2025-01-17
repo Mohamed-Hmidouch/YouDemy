@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Models\TagsModel;
-use App\Classes\Tags;
 class TagsController
 {
     public function read(){

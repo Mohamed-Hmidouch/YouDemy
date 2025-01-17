@@ -16,7 +16,7 @@ abstract class BaseModel
         $this->table = $table;
         $this->connection = Database::getConnection();
     }
-    public function findAll(){
+     public function findAll(){
      try{
         $query = $this->connection->prepare("SELECT * FROM $this->table");
         $query->execute();
@@ -28,6 +28,23 @@ abstract class BaseModel
         }
 
      }catch(PDOException $e) {
+            error_log("Database Error: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function findById($id){
+        try{
+            $query = $this->connection->prepare("SELECT * FROM $this->table WHERE id = :id");
+            $query->bindParam(':id', $id);
+            $query->execute();
+            $result = $query->fetch(PDO::FETCH_ASSOC);
+            if(!$result){
+                return null;
+            }else{
+                return $result;
+            }
+        }catch(PDOException $e) {
             error_log("Database Error: " . $e->getMessage());
             return [];
         }

@@ -5,8 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5f034425-88a2-4f13-82ea-c0893bf87303" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Src/Models/TagsModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Models/TagsModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Src/Classes/Course.php" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Classes/Course.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Src/Controllers/CourseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Controllers/CourseController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Src/Controllers/TagsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Controllers/TagsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Src/Models/BaseModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Models/BaseModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Src/Models/CourseModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Models/CourseModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Src/Views/Enseignant/Course.php" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Views/Enseignant/Course.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Src/Views/Enseignant/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Views/Enseignant/index.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -64,13 +70,18 @@
     "PHP Script.script.php.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "login",
+    "git-widget-placeholder": "main",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql_aurora"
+    ]
   }
 }]]></component>
   <component name="RecentsManager">
@@ -97,6 +108,9 @@
       <workItem from="1736865737272" duration="19607000" />
       <workItem from="1736927197384" duration="7772000" />
       <workItem from="1736954986084" duration="1177000" />
+      <workItem from="1737060680057" duration="718000" />
+      <workItem from="1737061442585" duration="169000" />
+      <workItem from="1737069450806" duration="1501000" />
     </task>
     <servers />
   </component>

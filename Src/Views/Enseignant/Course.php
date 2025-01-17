@@ -1,3 +1,26 @@
+<?php
+namespace App\Views;
+require_once __DIR__ . '/../../../vendor/autoload.php';
+use App\Controllers\CourseController;
+$courseController = new CourseController();
+session_start();
+if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'enseignant') {
+    header('Location: ../../Views/index.php');
+    exit();
+}
+// Appeler la méthode read pour charger les cours
+$courseController->read();
+
+// Vérifier si des cours sont disponibles dans la session
+if (isset($_SESSION['courses'])) {
+    $courses = $_SESSION['courses'];
+} else {
+    $courses = [];
+}
+ 
+
+
+?>
 <!DOCTYPE html>
 <html lang="fr" data-theme="custom">
 <head>
@@ -108,29 +131,26 @@
             
             <div class="bg-white rounded-xl shadow-md overflow-x-auto">
                 <table class="w-full">
-                    <thead>
-                        <tr class="bg-gray-100">
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom du Cours</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">Introduction à React</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-indigo-600 hover:text-indigo-900 mr-2">Modifier</button>
-                                <button class="text-red-600 hover:text-red-900">Supprimer</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">Python pour Débutants</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-indigo-600 hover:text-indigo-900 mr-2">Modifier</button>
-                                <button class="text-red-600 hover:text-red-900">Supprimer</button>
-                            </td>
-                        </tr>
-                        <!-- Ajoutez d'autres lignes de cours ici -->
-                    </tbody>
+                <thead>
+    <tr class="bg-gray-100">
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom du Cours</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+    </tr>
+</thead>
+<tbody class="bg-white divide-y divide-gray-200">
+    <?php foreach ($courses as $course): ?>
+        <tr>
+            <td class="px-6 py-4 whitespace-nowrap"><?= htmlspecialchars($course['titre']) ?></td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                <a href="./updateCourse.php?id=<?= htmlspecialchars($course['id']) ?>" 
+                   class="text-indigo-600 hover:text-indigo-900 mr-2">Modifier</a>
+                <button class="text-red-600 hover:text-red-900">Supprimer</button>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</tbody>
+
+
                 </table>
             </div>
         </main>

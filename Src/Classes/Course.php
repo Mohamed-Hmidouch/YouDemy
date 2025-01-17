@@ -12,7 +12,7 @@ class Course
     public $tags = [];
     private $created_at;
 
-    public function __construct($id, $titre,$description,$categorie,$contenu,$tags,$created_at='') {
+    public function __construct($id, $titre,$description,$contenu,$categorie,$tags,$created_at='') {
         $this->id = $id;
         $this->titre = $titre;
         $this->description = $description;
@@ -28,6 +28,18 @@ class Course
 
     public function getTitre(){
         return $this->titre;
+    }
+    public function getdescription(){
+        return $this->description;
+    }
+    public function getContenu(){
+        return $this->contenu;
+    }
+    public function getCategorie(){
+        return $this->categorie;
+    }
+    public function getTags(){
+        return $this->tags;
     }
 
     public function getCreatedAt(){

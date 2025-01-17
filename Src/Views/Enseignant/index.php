@@ -113,12 +113,9 @@ if(isset($_POST["submit"])){
             const selectedTagsContainer = document.getElementById('selectedTagsContainer');
             const hiddenTagsInput = document.getElementById('tags_selected');
 
-            // Tableau pour stocker les tags sélectionnés
             let selectedTags = [];
 
-            // Fonction pour mettre à jour les tags sélectionnés
             function updateSelectedTags() {
-                // Mettre à jour le conteneur des tags sélectionnés
                 selectedTagsContainer.innerHTML = selectedTags.map(tag => `
                 <span class="tag bg-primary/10 text-primary px-3 py-1 rounded-full text-sm flex items-center">
                     <i class="fas fa-tag mr-1"></i>
@@ -129,7 +126,6 @@ if(isset($_POST["submit"])){
                 </span>
             `).join('');
 
-                // Mettre à jour le champ caché avec les tags
                 hiddenTagsInput.value = selectedTags.join(',');
             }
 
@@ -193,8 +189,6 @@ contentTypeRadios.forEach(radio => {
                 <i class="fas fa-graduation-cap text-primary text-2xl"></i>
                 <h1 class="text-2xl font-bold text-primary font-serif">Youdemy</h1>
             </div>
-
-            
             <nav class="space-y-4">
                 <div class="group">
                     <a href="#" class="flex items-center space-x-3 text-neutral hover:text-primary p-3 rounded-lg transition-all duration-300 hover:bg-primary/10">
@@ -354,31 +348,6 @@ contentTypeRadios.forEach(radio => {
                         <small class="text-gray-500 text-sm">Cliquez sur un tag pour le sélectionner</small>
                         <input type="hidden" name="tags_selected_ids" value="<?= htmlspecialchars($tagsIdsString ?? '') ?>">
                     </div>
-
-
-                    <!-- <div>
-                        <label class="block text-neutral font-medium mb-2">Type de Contenu</label>
-                        <div class="flex space-x-4">
-                            <label class="flex items-center space-x-2">
-                                <input type="radio"  value="video" class="text-primary">
-                                <span>Vidéo</span>
-                            </label>
-                            <label class="flex items-center space-x-2">
-                                <input type="radio"  value="text" class="text-primary">
-                                <span>Texte</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div id="video_content" class="hidden">
-                        <label class="block text-neutral font-medium mb-2">URL de la Vidéo</label>
-                        <input type="url" name="contenu" class="w-full border border-base-300 rounded-lg p-3 focus:outline-none focus:border-primary" placeholder="https://...">
-                    </div>
-
-                    <div id="text_content" class="hidden">
-                        <label class="block text-neutral font-medium mb-2">Contenu du Cours</label>
-                        <textarea name="contenu" class="w-full border border-base-300 rounded-lg p-3 focus:outline-none focus:border-primary" rows="6" placeholder="Rédigez votre cours..."></textarea>
-                    </div> -->
                     <div>
     <label class="block text-neutral font-medium mb-2">Type de Contenu</label>
     <div class="flex space-x-4">
