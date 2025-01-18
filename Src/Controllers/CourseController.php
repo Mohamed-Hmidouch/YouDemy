@@ -1,7 +1,6 @@
 <?php
 namespace App\Controllers;
 use App\Models\CourseModel;
-use App\Classes\Course;
 use Exception;
 
 class CourseController {
@@ -45,7 +44,7 @@ class CourseController {
       try{
         $courses = $this->courseModel->findAll();
         if($courses == null){
-            echo "no courses in dtabase ajmi sir inser les donnes";
+            return $courses['message'] = "no courses in database sir inser les donnes";
         }else{
             $_SESSION['courses'] = array_map(function($course){
                 $tagsArray = array_map(function($tag){
@@ -91,4 +90,44 @@ public function delete($courseId){
     $this->courseModel->delete($courseId);
     header("Location: ../../Views/Enseignant/Course.php");
      }
+
+
+
+
+public function getEtudiantsInscrits($enseignant_id) {
+    return $this->courseModel->getEtudiantsInscrits($enseignant_id);
+}
+
+public function readcourseinscrit(){
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
     }
+  try{
+    $courses = $this->courseModel->findAllInscrits($_SESSION['user']['id']);
+        $_SESSION['courses'] = array_map(function($course){
+            $tagsArray = array_map(function($tag){
+                return [
+                    'id'=>$tag->getId(),
+                    'titre'=>$tag->getTitre()
+                ];
+            },$course->getTags());
+            $category = [
+                'id'=> $course->getCategorie()->getId(),
+                'titre'=>$course->getCategorie()->getTitre()
+            ];
+            return [
+                'id' => $course->getId(),
+                'titre' => $course->getTitre(),
+                'description' => $course->getDescription(),
+                'contenu' => $course->getContenu(),
+                'category' => $category,
+                'tags' => $tagsArray,
+                'image_url' => $course->getImageUrl()
+            ];
+        },$courses);
+    
+  }catch(Exception $e){
+    echo "erreur de repeuper de donnes:".$e->getMessage();
+  }
+}
+}

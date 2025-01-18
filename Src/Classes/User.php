@@ -5,14 +5,14 @@ require_once __DIR__ . "/../../vendor/autoload.php";
 class User
 {
     private $id;
-    private $name;
+    private $nom;
     private $email;
 
     private $password;
     private $role;
-    public function __construct($id, $name, $email, $password, $role){
+    public function __construct($id, $nom, $email, $password, $role){
         $this->id = $id;
-        $this->name = $name;
+        $this->nom = $nom;
         $this->email = $email;
         $this->password = $password;
         $this->role = $role;
@@ -24,7 +24,7 @@ class User
         return $this->id;
     }
     public function getName(){
-        return $this->name;
+        return $this->nom;
     }
     public function getEmail(){
         return $this->email;

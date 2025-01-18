@@ -1,5 +1,23 @@
 <?php
+namespace App\Views;
+require_once __DIR__ . '/../../../vendor/autoload.php';
+use App\Controllers\CourseController;
+$courseController = new CourseController();
+session_start();
+if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'enseignant') {
+    header('Location: ../../Views/index.php');
+    exit();
+}
 
+$etudiant= $courseController->getEtudiantsInscrits($_SESSION['user']['id']);
+
+
+
+if(isset($_POST['deconnexion'])) {
+    session_destroy();
+    header('Location: /../../src/Views/index.php');
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -117,11 +135,11 @@
                 <tbody class="divide-y divide-gray-200">
                     <tr>
                         <td class="px-6 py-4 text-sm text-gray-900">Nombre d'étudiants inscrits</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">120</td>
+                        <td class="px-6 py-4 text-sm text-gray-900"><?php echo $etudiant['total_etudiants']?></td>
                     </tr>
                     <tr>
                         <td class="px-6 py-4 text-sm text-gray-900">Nombre de cours</td>
-                        <td class="px-6 py-4 text-sm text-gray-900">15</td>
+                        <td class="px-6 py-4 text-sm text-gray-900"><?php echo $etudiant['nombre_cours']?></td>
                     </tr>
                 </tbody>
             </table>

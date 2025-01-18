@@ -15,9 +15,8 @@ class LoginAuth
 
         $authModel = new authModel();
         $user = $authModel->findUser($email, $password);
-
         if ($user == null) {
-            echo "User not found, please check ...";
+            echo  "Email ou mot de passe incorrect";
         } else {
             $_SESSION['user'] = [
                 'id' => $user->getId(),

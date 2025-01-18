@@ -4,19 +4,17 @@ require_once '../../../vendor/autoload.php';
 use App\Controllers\Auth\LoginAuth;
 session_start();
 if(isset($_POST["submit"])){
-    $donnees = filter_input_array(INPUT_POST, [
-        'email' => FILTER_VALIDATE_EMAIL,
-        'password' => FILTER_DEFAULT,
-    ]);
-    if(empty($donnees["email"]) && empty($donnees["password"]))
+
+    if(empty($_POST["email"]) || empty($_POST["password"]))
     {
         echo "email or password is empty";
     }else{
-        $email = $donnees["email"];
-        $password = $donnees["password"];
+        $email = $_POST["email"];
+        $password = $_POST["password"];
         $authController = new LoginAuth();
         $authController->login($email, $password);
     }
+ 
 
 
 

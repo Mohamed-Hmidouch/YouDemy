@@ -14,7 +14,6 @@ if(isset($_SESSION['courses'])) {
     $courses = $_SESSION['courses'];
 } else {
     $courses = [];
-   echo "no session ajmi";
 }
 if(isset($_POST['inscrire'])) {
 
@@ -73,7 +72,7 @@ if(isset($_POST['deconnexion'])) {
                         <i class="fas fa-home"></i>
                         <span>Tableau de bord</span>
                     </a>
-                    <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary/10 text-gray-600 hover:text-primary">
+                    <a href="./CourseEtudiant.php" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary/10 text-gray-600 hover:text-primary">
                         <i class="fas fa-book"></i>
                         <span>Mes cours</span>
                     </a>
