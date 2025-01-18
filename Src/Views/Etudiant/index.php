@@ -1,21 +1,33 @@
 <?php
 namespace App\Views;
 require_once __DIR__ . '/../../../vendor/autoload.php';
-use App\Controllers\CourseController;
-$courseController = new CourseController();
+
 session_start();
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'etudiant') {
     header('Location: ../../Views/index.php');
     exit();
 }
-$CourseController->read();
+use App\Controllers\CourseController;
+$Controller = new CourseController();
+$Controller->read();
 if(isset($_SESSION['courses'])) {
     $courses = $_SESSION['courses'];
 } else {
     $courses = [];
-
+   echo "no session ajmi";
 }
-print_r($courses);
+if(isset($_POST['inscrire'])) {
+
+$inscrie = $Controller->inscrire($_POST['course_id'],$_SESSION['user']['id']);
+if($inscrie){
+    echo "inscrie avec succes";
+}
+}
+if(isset($_POST['deconnexion'])) {
+    session_destroy();
+    header('Location: /../../src/Views/index.php');
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -65,10 +77,10 @@ print_r($courses);
                         <i class="fas fa-book"></i>
                         <span>Mes cours</span>
                     </a>
-                    <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary/10 text-gray-600 hover:text-primary">
+                    <form action="" method="POST" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary/10 text-gray-600 hover:text-primary">
                         <i class="fas fa-sign-out-alt"></i>
-                        <span>Déconnexion</span>
-                    </a>
+                        <button name="deconnexion" type="submit">Déconnexion</button>
+                    </form>
                 </nav>
             </div>
         </aside>
@@ -98,47 +110,29 @@ print_r($courses);
             <section>
                 <h2 class="text-3xl font-bold text-primary mb-6">Catalogue des Cours</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="coursesContainer">
-                    <!-- Static Course Cards -->
+                <?php foreach($courses as $course): ?>
                     <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                        <img src="https://via.placeholder.com/300x200" alt="Course" class="w-full h-48 object-cover">
+                        <img src="<?php echo $course['image_url']; ?>" alt="<?php echo $course['titre']; ?>" class="w-full h-48 object-cover">
                         <div class="p-4">
                             <div class="flex justify-between items-center mb-2">
-                                <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">Web Development</span>
-                                <div class="flex items-center">
-                                    <i class="fas fa-star text-yellow-400"></i>
-                                    <span class="ml-1 text-sm">4.8</span>
-                                </div>
+                                <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm"><?php echo $course['category']['titre']; ?></span>
                             </div>
-                            <h3 class="font-bold text-lg mb-2">React Masterclass</h3>
-                            <div class="flex justify-between items-center">
-                                <span class="text-primary font-bold">49.99 €</span>
-                                <button class="course-details-btn bg-primary text-white px-4 py-2 rounded-full text-sm" data-course-id="1">En savoir plus</button>
+                            <h3 class="font-bold text-lg mb-2"><?php echo $course['titre']; ?></h3>
+                            <div class="flex justify-end items-center">
+                                <button class="course-details-btn bg-primary text-white px-4 py-2 rounded-full text-sm" 
+                                        data-course-id="<?php echo $course['id']; ?>"
+                                        data-description="<?php echo htmlspecialchars($course['description']); ?>">
+                                    En savoir plus
+                                </button>
                             </div>
                         </div>
                     </div>
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                        <img src="https://via.placeholder.com/300x200" alt="Course" class="w-full h-48 object-cover">
-                        <div class="p-4">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">Programming</span>
-                                <div class="flex items-center">
-                                    <i class="fas fa-star text-yellow-400"></i>
-                                    <span class="ml-1 text-sm">4.5</span>
-                                </div>
-                            </div>
-                            <h3 class="font-bold text-lg mb-2">JavaScript Basics</h3>
-                            <div class="flex justify-between items-center">
-                                <span class="text-primary font-bold">29.99 €</span>
-                                <button class="course-details-btn bg-primary text-white px-4 py-2 rounded-full text-sm" data-course-id="2">En savoir plus</button>
-                            </div>
-                        </div>
-                    </div>
+                <?php endforeach; ?>
                 </div>
             </section>
         </div>
     </div>
 </div>
-
 <!-- Modal for Course Details -->
 <div id="courseModal" class="fixed hidden inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
     <div class="bg-white p-6 rounded-lg w-11/12 md:w-3/4 lg:w-1/2 animate-modal-in">
@@ -152,58 +146,29 @@ print_r($courses);
             <span id="modalCategory" class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm mr-2"></span>
             <div id="modalTags" class="inline-block"></div>
         </div>
-        <div id="modalContent" class="mt-4">
-            <p>Voici les détails du cours sélectionné.</p>
+        <div id="modalContent" class="mt-4 space-y-4">
+            <img id="courseImage" class="w-full h-48 object-cover rounded-lg mb-4" src="" alt="Course Image">
+            <p id="courseDescription" class="text-gray-700"></p>
+            <form action="" method="POST">
+                <input type="hidden" id="courseIdInput" name="course_id">
+                <button type="submit" name="inscrire" class="bg-primary text-white px-6 py-2 rounded-full hover:bg-primary/90 transition-colors">
+                    S'inscrire au cours
+                </button>
+            </form>
         </div>
     </div>
 </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Mock course data
-        const coursesData = {
-            1: {
-                title: "React Masterclass",
-                category: "Web Development",
-                tags: ["React", "JavaScript", "Frontend"],
-                contentType: "video",
-                content: "https://www.youtube.com/embed/sample"
-            },
-            2: {
-                title: "JavaScript Basics",
-                category: "Programming",
-                tags: ["JavaScript", "Beginner", "Programming"],
-                contentType: "text",
-                content: "Contenu détaillé du cours JavaScript Basics..."
-            }
-        };
-
-        function openModal(courseData) {
+        function openModal(courseId, description, imageUrl, title) {
             const modal = document.getElementById('courseModal');
             modal.classList.remove('hidden');
             
-            document.getElementById('modalTitle').textContent = courseData.title;
-            document.getElementById('modalCategory').textContent = courseData.category;
-            
-            const tagsContainer = document.getElementById('modalTags');
-            tagsContainer.innerHTML = courseData.tags
-                .map(tag => `<span class="bg-gray-200 text-gray-700 px-2 py-1 rounded-full text-sm mr-2">${tag}</span>`)
-                .join('');
-            
-            const contentContainer = document.getElementById('modalContent');
-            if (courseData.contentType === 'video') {
-                contentContainer.innerHTML = `
-                    <iframe src="${courseData.content}"
-                            class="w-full h-96"
-                            frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen>
-                    </iframe>`;
-            } else {
-                contentContainer.innerHTML = `
-                    <textarea class="w-full h-64 p-4 border rounded-lg"
-                              readonly>${courseData.content}</textarea>`;
-            }
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('courseDescription').textContent = description;
+            document.getElementById('courseImage').src = imageUrl;
+            document.getElementById('courseIdInput').value = courseId;
         }
 
         function closeModal() {
@@ -214,7 +179,10 @@ print_r($courses);
         document.querySelectorAll('.course-details-btn').forEach(button => {
             button.addEventListener('click', function() {
                 const courseId = this.getAttribute('data-course-id');
-                openModal(coursesData[courseId]);
+                const description = this.getAttribute('data-description');
+                const imageUrl = this.closest('.bg-white').querySelector('img').src;
+                const title = this.closest('.bg-white').querySelector('h3').textContent;
+                openModal(courseId, description, imageUrl, title);
             });
         });
 

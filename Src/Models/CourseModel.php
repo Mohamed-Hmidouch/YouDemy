@@ -18,21 +18,40 @@ class CourseModel extends BaseModel
         parent::__construct('Courses');
     }
 
-    public function insertCourse($titre, $description, $contenu, $categorie_id, $enseignant_id)
-    {
+    public function insertCourse($titre, $description, $contenu, $categorie_id, $enseignant_id, $image_url) {
         try {
-            $sql = "INSERT INTO $this->table (titre, description, contenu, categorie_id, enseignant_id) 
-                    VALUES (:titre, :description, :contenu, :categorie_id, :enseignant_id)";
+            // Nous ajoutons created_at et updated_at dans la requête
+            $sql = "INSERT INTO $this->table (
+                        titre, 
+                        description, 
+                        contenu, 
+                        categorie_id, 
+                        enseignant_id, 
+                        image_url, 
+                        created_at, 
+                        updated_at
+                    ) VALUES (
+                        :titre, 
+                        :description, 
+                        :contenu, 
+                        :categorie_id, 
+                        :enseignant_id, 
+                        :image_url,
+                        NOW(),
+                        NOW()
+                    )";
+            
             $stmt = $this->connection->prepare($sql);
-
+            
             $stmt->bindParam(':titre', $titre, PDO::PARAM_STR);
             $stmt->bindParam(':description', $description, PDO::PARAM_STR);
             $stmt->bindParam(':contenu', $contenu, PDO::PARAM_STR);
             $stmt->bindParam(':categorie_id', $categorie_id, PDO::PARAM_INT);
             $stmt->bindParam(':enseignant_id', $enseignant_id, PDO::PARAM_INT);
-
+            $stmt->bindParam(':image_url', $image_url, PDO::PARAM_STR);
+            
             $stmt->execute();
-
+            
             return $this->connection->lastInsertId();
         } catch (Exception $e) {
             throw new Exception("Erreur lors de l'insertion du cours : " . $e->getMessage());
@@ -63,6 +82,7 @@ class CourseModel extends BaseModel
                         c.titre AS course_title, 
                         c.description AS course_description, 
                         c.contenu AS course_content, 
+                        c.image_url,
                         cat.id AS category_id, 
                         cat.titre AS category_title,
                         GROUP_CONCAT(t.id, ':', t.titre SEPARATOR ',') AS tags
@@ -74,6 +94,8 @@ class CourseModel extends BaseModel
                         Courses_Tags ct ON c.id = ct.course_id
                     LEFT JOIN 
                         Tags t ON ct.tag_id = t.id
+                    WHERE
+                        c.deleted_at IS NULL
                     GROUP BY 
                         c.id";
 
@@ -98,7 +120,8 @@ class CourseModel extends BaseModel
                     $row['course_description'],
                     $row['course_content'],
                     $category,
-                    $tags
+                    $tags,
+                    $row['image_url']
                 );
             }
 
@@ -116,6 +139,7 @@ class CourseModel extends BaseModel
                     c.titre AS course_title, 
                     c.description AS course_description, 
                     c.contenu AS course_content, 
+                    c.image_url,
                     cat.id AS category_id, 
                     cat.titre AS category_title,
                     GROUP_CONCAT(t.id SEPARATOR ',') AS tag_ids,
@@ -143,11 +167,12 @@ class CourseModel extends BaseModel
         }
     }
     
-    public function updateCourse($courseId, $titre, $description, $contenu, $categorie_id, $enseignant_id)
+    public function updateCourse($courseId, $titre, $description, $contenu, $categorie_id, $enseignant_id, $imageUrl)
     {
         try {
             $sql = "UPDATE $this->table 
-                    SET titre = :titre, description = :description, contenu = :contenu, categorie_id = :categorie_id, enseignant_id = :enseignant_id
+                    SET titre = :titre, description = :description, contenu = :contenu, 
+                        categorie_id = :categorie_id, enseignant_id = :enseignant_id, image_url = :image_url
                     WHERE id = :courseId";
             $stmt = $this->connection->prepare($sql);
 
@@ -156,6 +181,7 @@ class CourseModel extends BaseModel
             $stmt->bindParam(':contenu', $contenu, PDO::PARAM_STR);
             $stmt->bindParam(':categorie_id', $categorie_id, PDO::PARAM_INT);
             $stmt->bindParam(':enseignant_id', $enseignant_id, PDO::PARAM_INT);
+            $stmt->bindParam(':image_url', $imageUrl, PDO::PARAM_STR);
             $stmt->bindParam(':courseId', $courseId, PDO::PARAM_INT);
 
             $stmt->execute();
@@ -187,4 +213,25 @@ class CourseModel extends BaseModel
             throw new DatabaseException("Erreur lors de la mise à jour des tags : " . $e->getMessage());
         }
     }
+
+    public function inscrire($course_id, $etudiant_id)
+    {
+        try {
+            // First check if enrollment already exists
+            $checkSql = "SELECT COUNT(*) FROM Inscriptions WHERE course_id = :course_id AND etudiant_id = :etudiant_id";
+            $checkStmt = $this->connection->prepare($checkSql);
+            $checkStmt->execute([':course_id' => $course_id, ':etudiant_id' => $etudiant_id]);
+            
+            if ($checkStmt->fetchColumn() > 0) {
+            return "Vous êtes déjà inscrit à ce cours";
+            }
+
+            $sql = "INSERT INTO Inscriptions (course_id, etudiant_id) VALUES (:course_id, :etudiant_id)";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->execute([':course_id' => $course_id, ':etudiant_id' => $etudiant_id]);
+            return true;
+        } catch (Exception $e) {
+            return "Erreur lors de l'inscription au cours : " . $e->getMessage();
+        }
+}
 }

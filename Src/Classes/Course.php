@@ -10,15 +10,17 @@ class Course
     public $contenu;
     public $categorie;
     public $tags = [];
+    public $image_url;
     private $created_at;
 
-    public function __construct($id, $titre,$description,$contenu,$categorie,$tags,$created_at='') {
+    public function __construct($id, $titre,$description,$contenu,$categorie,$tags,$image_url,$created_at='') {
         $this->id = $id;
         $this->titre = $titre;
         $this->description = $description;
         $this->contenu = $contenu;
         $this->categorie = $categorie;
         $this->tags = $tags;
+        $this->image_url = $image_url;
         $this->created_at = $created_at;
     }
 
@@ -42,6 +44,9 @@ class Course
         return $this->tags;
     }
 
+    public function getImageUrl(){
+        return $this->image_url;
+    }
     public function getCreatedAt(){
         return $this->created_at;
     }

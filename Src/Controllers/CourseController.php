@@ -17,6 +17,7 @@ class CourseController {
         $contenu = trim($postData['contenu']);
         $categorie_id = (int) $postData['categorie_id'];
         $enseignant_id = (int) $_SESSION['user']['id'];
+        $imageUrl = trim($postData['image_url']); // Add image URL from form data
 
         $selectedTags = explode(',', $postData['tags_selected']);
 
@@ -31,7 +32,7 @@ class CourseController {
 
         $validTagIds = array_filter($validTagIds);
 
-        $courseId = $this->courseModel->insertCourse($titre, $description, $contenu, $categorie_id, $enseignant_id);
+        $courseId = $this->courseModel->insertCourse($titre, $description, $contenu, $categorie_id, $enseignant_id, $imageUrl); // Add imageUrl parameter
 
         $this->courseModel->insertCourseTags($courseId, $validTagIds);
         header("Location: ../../Views/Enseignant/index.php");
@@ -63,7 +64,8 @@ class CourseController {
                     'description' => $course->getDescription(),
                     'contenu' => $course->getContenu(),
                     'category' => $category,
-                    'tags' => $tagsArray
+                    'tags' => $tagsArray,
+                    'image_url' => $course->getImageUrl()
                 ];
             },$courses);
         }
@@ -76,9 +78,17 @@ class CourseController {
         
     }
     
-        public function updateCourse($titre, $categorie_id, $tags_selected_ids, $contenu, $description, $enseignant_id, $courseId) {
-            $this->courseModel->updateCourse($courseId, $titre, $description, $contenu, $categorie_id, $enseignant_id);
+        public function updateCourse($titre, $categorie_id, $tags_selected_ids, $contenu, $description, $enseignant_id, $courseId, $imageUrl) {
+            $this->courseModel->updateCourse($courseId, $titre, $description, $contenu, $categorie_id, $enseignant_id, $imageUrl);
             
             $this->courseModel->updateCourseTags($courseId, $tags_selected_ids);
         }
+
+        public function inscrire($course_id,$etudiant_id){
+            return $this->courseModel->inscrire($course_id,$etudiant_id);
+        }
+public function delete($courseId){
+    $this->courseModel->delete($courseId);
+    header("Location: ../../Views/Enseignant/Course.php");
+     }
     }

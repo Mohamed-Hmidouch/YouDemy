@@ -30,16 +30,15 @@ if (isset($_SESSION['categories']) && isset($_SESSION['tags'])) {
 $courseId = $_GET['id'];
 $courseContenct = $courseController->fetchbyId($courseId);
 if(isset($_POST['update_course'])){
-    echo "lkwa ajmi";
-    print_r($_POST);
     $titre = $_POST['titre'];
     $categorie_id = $_POST['categorie_id'];
     $tags = $_POST['tags_selected_ids'];
     $contenu = $_POST['contenu'];
     $description = $_POST['description'];
+    $image_url = $_POST['image_url'];
     $user_id = $_SESSION['user']['id'];
     
-    $courseController->updateCourse($titre, $categorie_id, $tags, $contenu, $description, $user_id, $courseId);
+    $courseController->updateCourse($titre, $categorie_id, $tags, $contenu, $description, $user_id, $courseId, $image_url);
 }
 ?>
 <!DOCTYPE html>
@@ -291,12 +290,14 @@ contentTypeRadios.forEach(radio => {
                     </div>
 
                     <div>
-                        <label class="block text-neutral font-medium mb-2">Image de Couverture</label>
-                        <div class="border-2 border-dashed border-base-300 rounded-lg p-6 text-center hover:border-primary transition-colors">
-                            <i class="fas fa-cloud-upload-alt text-4xl text-neutral mb-4"></i>
-                            <p class="text-neutral">Glissez et déposez votre image ou <span class="text-primary cursor-pointer">parcourir</span></p>
-                            <input type="file" class="hidden" accept="image/*">
-                        </div>
+                        <label class="block text-neutral font-medium mb-2">Image de Couverture (URL)</label>
+                        <input 
+                            type="url" 
+                            name="image_url"
+                            class="w-full border border-base-300 rounded-lg p-3 focus:outline-none focus:border-primary" 
+                            placeholder="Entrez l'URL de l'image (https://...)"
+                        >
+                        <p class="text-sm text-gray-500 mt-1"><?php echo $courseContenct['image_url']?></p>
                     </div>
 
 
@@ -313,7 +314,7 @@ contentTypeRadios.forEach(radio => {
                             type="submit" value="submit" name="update_course"
                             class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center"
                         >
-                            <i class="fas fa-paper-plane mr-2"></i>Publier le Cours
+                            <i class="fas fa-paper-plane mr-2"></i>Update le Cours
                         </button>
                     </div>
                 </form>

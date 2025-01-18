@@ -49,4 +49,15 @@ abstract class BaseModel
             return [];
         }
     }
+    public function delete($id){
+        try{
+            $query = $this->connection->prepare("UPDATE $this->table SET deleted_at = NOW() WHERE id = :id");
+            $query->bindParam(':id', $id);
+            $query->execute();
+            return true;
+        }catch(PDOException $e) {
+            error_log("Database Error: " . $e->getMessage());
+            return false;
+        }
+    }
 }

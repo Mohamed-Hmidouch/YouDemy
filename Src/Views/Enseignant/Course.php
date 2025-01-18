@@ -8,18 +8,22 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'enseignant') {
     header('Location: ../../Views/index.php');
     exit();
 }
-// Appeler la méthode read pour charger les cours
 $courseController->read();
 
-// Vérifier si des cours sont disponibles dans la session
 if (isset($_SESSION['courses'])) {
     $courses = $_SESSION['courses'];
 } else {
     $courses = [];
 }
- 
-
-
+if(isset($_POST['delete']) && isset($_GET['id'])){
+    $courseId = $_GET['id'];
+    $courseController->delete($courseId);
+}
+if(isset($_POST['deconnexion'])) {
+    session_destroy();
+    header('Location: /../../src/Views/index.php');
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr" data-theme="custom">
@@ -95,22 +99,16 @@ if (isset($_SESSION['courses'])) {
                     </div>
                     <div class="group">
                         <a href="#" class="flex items-center space-x-3 text-neutral hover:text-primary p-3 rounded-lg transition-all duration-300 hover:bg-primary/10">
-                            <i class="fas fa-users text-xl"></i>
-                            <span class="font-medium">Étudiants</span>
-                        </a>
-                    </div>
-                    <div class="group">
-                        <a href="#" class="flex items-center space-x-3 text-neutral hover:text-primary p-3 rounded-lg transition-all duration-300 hover:bg-primary/10">
                             <i class="fas fa-chart-bar text-xl"></i>
                             <span class="font-medium">Statistiques</span>
                         </a>
                     </div>
                     <div class="group">
-                        <a href="#" class="flex items-center space-x-3 text-neutral hover:text-primary p-3 rounded-lg transition-all duration-300 hover:bg-primary/10">
-                            <i class="fas fa-sign-out-alt text-xl"></i>
-                            <span class="font-medium">Déconnexion</span>
-                        </a>
-                    </div>
+                    <form  action="" method="POST"  class="flex items-center space-x-3 text-neutral hover:text-primary p-3 rounded-lg transition-all duration-300 hover:bg-primary/10">
+                        <i class="fas fa-sign-out-alt text-xl"></i>
+                        <button name="deconnexion" type="submit" class="font-medium">Déconnexion</button>
+                    </form>
+                </div>
                 </nav>
 
                 <div class="border-t border-base-300 mt-6 pt-6">
@@ -144,7 +142,9 @@ if (isset($_SESSION['courses'])) {
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                 <a href="./updateCourse.php?id=<?= htmlspecialchars($course['id']) ?>" 
                    class="text-indigo-600 hover:text-indigo-900 mr-2">Modifier</a>
-                <button class="text-red-600 hover:text-red-900">Supprimer</button>
+                   <form action="./Course.php?id=<?= htmlspecialchars($course['id']) ?>" method="POST">
+                   <button name="delete" type="submit" class="text-red-600 hover:text-red-900">Supprimer</button>
+                   </form>
             </td>
         </tr>
     <?php endforeach; ?>

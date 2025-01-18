@@ -33,6 +33,7 @@ if(isset($_POST["submit"])){
     $description = $_POST['description'];
     $selectedTags= $_POST['tags_selected'];
     $enseignant_id = $_SESSION['user']['id'];
+    $image_url = $_POST['image_url']; // Added image URL
     $tagsArray = explode(',', $selectedTags);
     $validTagIds = array_map(function ($tagName) {
         foreach ($_SESSION['tags'] as $tag) {
@@ -47,11 +48,17 @@ if(isset($_POST["submit"])){
     $courseController = new CourseController();
     try {
         $postData = $_POST;
+        $postData['image_url'] = $image_url; // Add image URL to postData
         $courseId = $courseController->createCourse($postData, $_SESSION['tags']);
         echo "Cours créé avec succès. ID : " . $courseId;
     } catch (Exception $e) {
         echo "Erreur : " . $e->getMessage();
     }
+}
+if(isset($_POST['deconnexion'])) {
+    session_destroy();
+    header('Location: /../../src/Views/index.php');
+    exit();
 }
 ?>
 <!DOCTYPE html>
@@ -203,22 +210,16 @@ contentTypeRadios.forEach(radio => {
                     </a>
                 </div>
                 <div class="group">
-                    <a href="#" class="flex items-center space-x-3 text-neutral hover:text-primary p-3 rounded-lg transition-all duration-300 hover:bg-primary/10">
-                        <i class="fas fa-users text-xl"></i>
-                        <span class="font-medium">Étudiants</span>
-                    </a>
-                </div>
+                        <a href="./Statistiques.php" class="flex items-center space-x-3 text-neutral hover:text-primary p-3 rounded-lg transition-all duration-300 hover:bg-primary/10">
+                            <i class="fas fa-chart-bar text-xl"></i>
+                            <span class="font-medium">Statistiques</span>
+                        </a>
+                    </div>
                 <div class="group">
-                    <a href="#" class="flex items-center space-x-3 text-neutral hover:text-primary p-3 rounded-lg transition-all duration-300 hover:bg-primary/10">
-                        <i class="fas fa-chart-bar text-xl"></i>
-                        <span class="font-medium">Statistiques</span>
-                    </a>
-                </div>
-                <div class="group">
-                    <a href="./logout.php" class="flex items-center space-x-3 text-neutral hover:text-primary p-3 rounded-lg transition-all duration-300 hover:bg-primary/10">
+                    <form  action="" method="POST"  class="flex items-center space-x-3 text-neutral hover:text-primary p-3 rounded-lg transition-all duration-300 hover:bg-primary/10">
                         <i class="fas fa-sign-out-alt text-xl"></i>
-                        <span class="font-medium">Déconnexion</span>
-                    </a>
+                        <button name="deconnexion" type="submit" class="font-medium">Déconnexion</button>
+                    </form>
                 </div>
             </nav>
 
@@ -379,12 +380,14 @@ contentTypeRadios.forEach(radio => {
                     </div>
 
                     <div>
-                        <label class="block text-neutral font-medium mb-2">Image de Couverture</label>
-                        <div class="border-2 border-dashed border-base-300 rounded-lg p-6 text-center hover:border-primary transition-colors">
-                            <i class="fas fa-cloud-upload-alt text-4xl text-neutral mb-4"></i>
-                            <p class="text-neutral">Glissez et déposez votre image ou <span class="text-primary cursor-pointer">parcourir</span></p>
-                            <input type="file" class="hidden" accept="image/*">
-                        </div>
+                        <label class="block text-neutral font-medium mb-2">Image de Couverture (URL)</label>
+                        <input 
+                            type="url" 
+                            name="image_url"
+                            class="w-full border border-base-300 rounded-lg p-3 focus:outline-none focus:border-primary" 
+                            placeholder="Entrez l'URL de l'image (https://...)"
+                        >
+                        <p class="text-sm text-gray-500 mt-1">Veuillez entrer une URL valide d'image (ex: https://exemple.com/image.jpg)</p>
                     </div>
 
 
