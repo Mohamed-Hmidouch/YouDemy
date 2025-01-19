@@ -31,4 +31,10 @@ class TagsController
     public function create($tagName){
         $this->TagsModel->createTag($tagName);
     }
+    public function update($id,$tagName){
+        $this->TagsModel->updateTag($id, $tagName);
+    }
+    public function delete($id){
+        $this->TagsModel->delete($id);
+    }
 }

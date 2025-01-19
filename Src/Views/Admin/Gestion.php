@@ -51,7 +51,7 @@ if(isset($_POST['add_tag'])) {
 if(isset($_POST['edit_tag'])) {
     $id = $_POST['tagId'];
     $tagName = $_POST['tagName'];
-    $TagsController->update($id, ['titre' => $tagName]);
+    $TagsController->update($id,$tagName);
     header('Location: ' . $_SERVER['PHP_SELF']);
     exit();
 }

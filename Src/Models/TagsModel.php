@@ -45,4 +45,32 @@ class TagsModel extends BaseModel
             return null;
         }
     }
+    public function updateTag($id, $title) {
+        try {
+            $query = "UPDATE $this->table SET titre = :titre WHERE id = :id";
+            
+            $stmt = $this->connection->prepare($query);
+            $stmt->bindParam(':titre', $title, PDO::PARAM_STR);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            
+            $result = $stmt->execute();
+            
+            if ($result) {
+                return [
+                    'success' => true,
+                    'message' => 'tag updated successfully'
+                ];
+            } else {
+                return [
+                    'success' => false,
+                    'message' => 'Failed to update tag'
+                ];
+            }
+        } catch (PDOException $e) {
+            return [
+                'success' => false,
+                'message' => 'Database error: ' . $e->getMessage()
+            ];
+        }
+    }
 }
