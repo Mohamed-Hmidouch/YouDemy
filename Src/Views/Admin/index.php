@@ -1,15 +1,10 @@
 <?php
 namespace App\Views;
 require_once __DIR__ . '/../../../vendor/autoload.php';
-use App\Controllers\TagsController;
-use App\Controllers\CategoriesController;
 use App\Controllers\StatistiquesController;
 use App\Controllers\CourseController;
 $courses = new CourseController();
 $allcourse = $courses->getCoursesCount();
-
-
-
 $UsersStat = new StatistiquesController();
 $UsersStat->getAllEtudiant();
 $UsersStat->getAllEtudiantInscris();
@@ -17,18 +12,6 @@ if (isset($_SESSION['allEtudiants']) && isset($_SESSION['etudiantsInscrits'])) {
    $totalEtudiants = $_SESSION['allEtudiants'];
     $etudiantsInscrits = $_SESSION['etudiantsInscrits'];
 }
-$tags = new TagsController();
-$tags->read();
-if (isset($_SESSION['tags'])) {
-
-}
-
-$categories = new CategoriesController();
-$categories->read();
-if (isset($_SESSION['categories'])) {
-
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -76,39 +59,33 @@ if (isset($_SESSION['categories'])) {
         <nav class="flex-1 p-4">
             <ul class="space-y-2">
                 <li>
-                    <a href="#" class="flex items-center space-x-3 p-3 rounded-lg bg-secondary text-base-100">
+                    <a href="./index.php" class="flex items-center space-x-3 p-3 rounded-lg bg-secondary text-base-100">
                         <i class="fas fa-chart-pie"></i>
                         <span class="sidebar-label">Dashboard</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-secondary text-base-300">
+                    <a href="./Comfirmation.php" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-secondary text-base-300">
                         <i class="fas fa-chalkboard-teacher"></i>
                         <span class="sidebar-label">Validation Enseignants</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-secondary text-base-300">
+                    <a href="./" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-secondary text-base-300">
                         <i class="fas fa-users-cog"></i>
                         <span class="sidebar-label">Gestion Utilisateurs</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-secondary text-base-300">
+                    <a href="./ConsulterCour.php" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-secondary text-base-300">
                         <i class="fas fa-book"></i>
                         <span class="sidebar-label">Gestion Cours</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-secondary text-base-300">
+                    <a href="./Gestion.php" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-secondary text-base-300">
                         <i class="fas fa-tags"></i>
                         <span class="sidebar-label">Tags & Catégories</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-secondary text-base-300">
-                        <i class="fas fa-chart-line"></i>
-                        <span class="sidebar-label">Statistiques</span>
                     </a>
                 </li>
             </ul>
@@ -145,7 +122,7 @@ if (isset($_SESSION['categories'])) {
                     </div>
                     <div class="ml-4">
                         <h3 class="text-neutral text-sm">Total Cours</h3>
-                        <p class="text-2xl font-semibold text-primary">182</p>
+                        <p class="text-2xl font-semibold text-primary"><?php echo count($allcourse)?></p>
                     </div>
                 </div>
             </div>
@@ -156,11 +133,12 @@ if (isset($_SESSION['categories'])) {
                     </div>
                     <div class="ml-4">
                         <h3 class="text-neutral text-sm">Étudiants Inscrits</h3>
-                        <p class="text-2xl font-semibold text-primary"><?php echo count($allcourse); ?></p>
+                        <p class="text-2xl font-semibold text-primary"><?php echo count($etudiantsInscrits); ?></p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
 </body>
 </html>

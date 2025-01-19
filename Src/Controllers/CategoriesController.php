@@ -2,17 +2,22 @@
 
 namespace App\Controllers;
 require_once __DIR__ . "/../../vendor/autoload.php";
+
 use App\Models\CategoriesModel;
-use App\Classes\Categorie;
+
 class CategoriesController
 {
+    private $categoriesModel;
+    public function __construct()
+    {
+        $this->categoriesModel = new CategoriesModel();
+    }
     public function read(){
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
 
-        $CategoriesModel = new CategoriesModel();
-        $categories = $CategoriesModel->findAll();
+        $categories = $this->categoriesModel->findAll();
         if ($categories == null) {
             echo "No Categories found";
         } else {
@@ -25,4 +30,17 @@ class CategoriesController
             }, $categories);
         }
 }
+public function create($categoryName){
+    $this->categoriesModel->createCategory($categoryName);
+}
+public function update($id, $categoryName) {
+    $result = $this->categoriesModel->updateCategory($id, $categoryName);
+    
+    if ($result['success']) {
+        echo "Category updated successfully!";
+    } else {
+        echo "Error: " . $result['message'];
+    }
+}
+
 }
