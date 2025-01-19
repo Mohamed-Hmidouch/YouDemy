@@ -20,7 +20,6 @@ class CourseModel extends BaseModel
 
     public function insertCourse($titre, $description, $contenu, $categorie_id, $enseignant_id, $image_url) {
         try {
-            // Nous ajoutons created_at et updated_at dans la requête
             $sql = "INSERT INTO $this->table (
                         titre, 
                         description, 
@@ -248,7 +247,7 @@ public function getEtudiantsInscrits($enseignant_id){
             AND c.deleted_at IS NULL";
         $stmt = $this->connection->prepare($sql);
         $stmt->execute([':enseignant_id' => $enseignant_id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC); // Un seul résultat avec les totaux
+        return $stmt->fetch(PDO::FETCH_ASSOC); 
     } catch (Exception $e) {
         throw new Exception("Erreur lors de la récupération des cours : " . $e->getMessage());
     }
@@ -312,4 +311,18 @@ public function findAllInscrits($etudiant_id){
     }
 }
 
+public function getAllcourses(){
+    try {
+        $sql = "SELECT (Courses.id) FROM Courses where deleted_at IS NULL";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute();
+        $courses = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $courses[] = $row['id'];
+        }
+        return $courses;
+    } catch (Exception $e) {
+        throw new Exception("Erreur lors de la récupération nombres des cours : " . $e->getMessage());
+    }
+}
 }

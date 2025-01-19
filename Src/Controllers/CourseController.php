@@ -130,4 +130,14 @@ public function readcourseinscrit(){
     echo "erreur de repeuper de donnes:".$e->getMessage();
   }
 }
+public function getCoursesCount() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }try{
+            return $this->courseModel->getAllcourses();
+        }catch(Exception $e){
+            echo "erreur de repeuper de donnes:".$e->getMessage();
+        }
+       
+}
 }
