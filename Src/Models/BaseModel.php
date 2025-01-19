@@ -18,7 +18,7 @@ abstract class BaseModel
     }
      public function findAll(){
      try{
-        $query = $this->connection->prepare("SELECT * FROM $this->table");
+        $query = $this->connection->prepare("SELECT * FROM $this->table WHERE deleted_at is null");
         $query->execute();
         $result [] = $query->fetchAll(PDO::FETCH_ASSOC);
         if(!$result){

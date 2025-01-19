@@ -14,7 +14,7 @@ class CategoriesModel extends BaseModel
 
     public function findAll(){
         try{
-            $query = $this->connection->prepare("SELECT * FROM $this->table");
+            $query = $this->connection->prepare("SELECT * FROM $this->table where deleted_at is null");
             $query->execute();
             $rows = $query->fetchAll(PDO::FETCH_ASSOC);
             if(!$rows){

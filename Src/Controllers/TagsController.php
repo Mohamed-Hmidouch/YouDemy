@@ -5,13 +5,18 @@ namespace App\Controllers;
 use App\Models\TagsModel;
 class TagsController
 {
+    private $TagsModel;
+    public function __construct()
+    {
+        $this->TagsModel = new TagsModel();
+    }
     public function read(){
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
 
-        $TagsModel = new TagsModel();
-        $tags = $TagsModel->findAll();
+        
+        $tags = $this->TagsModel->findAll();
         if ($tags == null) {
             echo "No tags found found";
         } else {
@@ -22,5 +27,8 @@ class TagsController
                 ];
             }, $tags);
         }
+    }
+    public function create($tagName){
+        $this->TagsModel->createTag($tagName);
     }
 }

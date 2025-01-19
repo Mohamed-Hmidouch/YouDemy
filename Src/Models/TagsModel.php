@@ -14,7 +14,7 @@ class TagsModel extends BaseModel
     }
     public function findAll(){
         try{
-            $query = $this->connection->prepare("SELECT * FROM $this->table");
+            $query = $this->connection->prepare("SELECT * FROM $this->table where deleted_at is null");
             $query->execute();
             $rows = $query->fetchAll(PDO::FETCH_ASSOC);
             if(!$rows){
@@ -30,6 +30,19 @@ class TagsModel extends BaseModel
         }catch(PDOException $e) {
             error_log("Database Error: " . $e->getMessage());
             return [];
+        }
+    }
+    public function createTag($title)
+    {
+        try {
+            // Création de la requête SQL
+            $query = "INSERT INTO $this->table (titre) VALUES (:titre)";
+            $statement = $this->connection->prepare($query);
+            $statement->bindParam(':titre', $title, PDO::PARAM_STR);
+            $statement->execute();
+        } catch (PDOException $e) {
+            error_log("Database Error (createCategory): " . $e->getMessage());
+            return null;
         }
     }
 }

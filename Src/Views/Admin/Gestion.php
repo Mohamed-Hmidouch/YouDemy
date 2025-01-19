@@ -43,7 +43,7 @@ if(isset($_POST['delete_category'])) {
 // Tag Operations
 if(isset($_POST['add_tag'])) {
     $tagName = $_POST['tagName'];
-    $TagsController->create(['titre' => $tagName]);
+    $TagsController->create($tagName);
     header('Location: ' . $_SERVER['PHP_SELF']);
     exit();
 }

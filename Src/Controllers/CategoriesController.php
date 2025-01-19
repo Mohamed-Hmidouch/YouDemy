@@ -35,12 +35,8 @@ public function create($categoryName){
 }
 public function update($id, $categoryName) {
     $result = $this->categoriesModel->updateCategory($id, $categoryName);
-    
-    if ($result['success']) {
-        echo "Category updated successfully!";
-    } else {
-        echo "Error: " . $result['message'];
-    }
 }
-
+   public function delete($id){
+    $this->categoriesModel->delete($id);
+     }
 }
