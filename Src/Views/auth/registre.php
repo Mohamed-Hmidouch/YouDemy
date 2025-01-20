@@ -19,9 +19,6 @@ if(isset($_POST["submit"]))
         $authController = new RegistreAuth();
         $authController->register($name, $email,$password,$role);
     }
-}else{
-    echo "error";
-    print_r($_POST);
 }
 ?>
 <!DOCTYPE html>

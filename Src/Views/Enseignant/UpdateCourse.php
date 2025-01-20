@@ -1,7 +1,5 @@
 <?php
 namespace App\Views;
-
-use App\Classes\Course;
 use App\Controllers\CourseController;
 require_once __DIR__ . '/../../../vendor/autoload.php';
 $courseController = new CourseController();
@@ -39,6 +37,11 @@ if(isset($_POST['update_course'])){
     $user_id = $_SESSION['user']['id'];
     
     $courseController->updateCourse($titre, $categorie_id, $tags, $contenu, $description, $user_id, $courseId, $image_url);
+}
+if(isset($_POST['deconnexion'])) {
+    session_destroy();
+    header('Location: /../../src/Views/index.php');
+    exit();
 }
 ?>
 <!DOCTYPE html>

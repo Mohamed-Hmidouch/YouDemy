@@ -2,6 +2,10 @@
 require_once __DIR__ . "/../../../vendor/autoload.php";
 use App\Controllers\UsersController;
 session_start();
+if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
+    header('Location: ../../Views/index.php');
+    exit();
+}
 $users = new UsersController();
 $users->collectUser();
 if(isset($_SESSION['Users'])){
@@ -15,6 +19,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
         header('Location: ' . $_SERVER['PHP_SELF']);
         exit();
     }
+}
+if(isset($_POST['deconnexion'])) {
+    session_destroy();
+    header('Location: /../../src/Views/index.php');
+    exit();
 }
 ?>
 <!DOCTYPE html>
@@ -89,12 +98,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
         </nav>
 
         <!-- Logout Button -->
-        <div class="p-4 border-t border-secondary">
-            <button class="flex items-center space-x-3 text-accent hover:bg-secondary p-3 rounded-lg w-full">
-                <i class="fas fa-sign-out-alt"></i>
-                <span class="sidebar-label">Déconnexion</span>
-            </button>
-        </div>
+        <div class="group">
+                    <form  action="" method="POST"  class="flex items-center space-x-3 text-neutral hover:text-primary p-3 rounded-lg transition-all duration-300 hover:bg-primary/10">
+                        <i class="fas fa-sign-out-alt text-xl"></i>
+                        <button name="deconnexion" type="submit" class="font-medium">Déconnexion</button>
+                    </form>
+                </div>
     </div>
 
     <!-- Main Content -->

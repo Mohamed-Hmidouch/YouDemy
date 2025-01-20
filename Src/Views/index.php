@@ -1,3 +1,22 @@
+<?php
+namespace App\Views;
+require_once __DIR__ . '/../../vendor/autoload.php';
+session_start();
+use App\Controllers\CourseController;
+$Controller = new CourseController();
+$Controller->read();
+if(isset($_SESSION['courses'])) {
+    $courses = $_SESSION['courses'];
+} else {
+    $courses = [];
+}
+$items_per_page = 3;
+$total_courses = count($courses);
+$total_pages = ceil($total_courses / $items_per_page);
+$current_page = isset($_GET['page']) ? max(1, min($total_pages, intval($_GET['page']))) : 1;
+$start_index = ($current_page - 1) * $items_per_page;
+$current_courses = array_slice($courses, $start_index, $items_per_page);
+?>
 <!DOCTYPE html>
 <html lang="fr" data-theme="custom">
 <head>
@@ -180,81 +199,91 @@
 </section>
 
 <!-- Section Cours Populaires -->
-<section class="py-16 bg-base-200">
+<section class="py-16 bg-base-200" id="courses-section">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
             <h2 class="text-3xl font-bold text-primary mb-4 font-serif">Cours les plus populaires</h2>
             <p class="text-neutral">Découvrez nos cours les mieux notés par la communauté</p>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Carte de cours 1 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="courses-grid">
+            <?php foreach($current_courses as $course): ?>
             <div class="bg-base-100 rounded-xl shadow-md overflow-hidden transition-transform duration-300 hover:scale-105">
-                <img src="https://www.tailwindai.dev/placeholder.svg" alt="React pour Débutants" class="w-full h-48 object-cover">
+                <img 
+                    src="<?php echo isset($course['image_url']) ? htmlspecialchars($course['image_url']) : 'https://www.tailwindai.dev/placeholder.svg'; ?>"
+                    alt="<?php echo isset($course['titre']) ? htmlspecialchars($course['titre']) : ''; ?>"
+                    class="w-full h-48 object-cover"
+                >
                 <div class="p-6">
                     <div class="flex items-center justify-between mb-4">
-                        <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">Développement</span>
+                        <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">
+                            <?php echo isset($course['category']) ? htmlspecialchars($course['titre']) : 'Non catégorisé'; ?>
+                        </span>
                         <div class="flex items-center">
                             <i class="fas fa-star text-yellow-400"></i>
-                            <span class="ml-1 text-neutral">4.9</span>
+                            <span class="ml-1 text-neutral"><?php echo isset($course['note']) ? number_format($course['note'], 1) : '4.5'; ?></span>
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold text-neutral mb-2">React pour Débutants</h3>
-                    <p class="text-neutral text-sm mb-4">Maîtrisez React.js et créez des applications web modernes.</p>
+                    <h3 class="text-xl font-bold text-neutral mb-2">
+                        <?php echo isset($course['titre']) ? htmlspecialchars($course['titre']) : ''; ?>
+                    </h3>
+                    <p class="text-neutral text-sm mb-4">
+                        <?php echo isset($course['description']) ? htmlspecialchars($course['description']) : 'Description non disponible'; ?>
+                    </p>
+                    
+                    <?php if(isset($course['tags']) && is_array($course['tags'])): ?>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <?php foreach($course['tags'] as $tag): ?>
+                        <span class="text-xs bg-base-200 text-neutral px-2 py-1 rounded-full">
+                            <?php echo is_string($tag) ? htmlspecialchars($tag) : ''; ?>
+                        </span>
+                        <?php endforeach; ?>
+                    </div>
+                    <?php endif; ?>
+                    
                     <div class="flex items-center justify-between">
-                        <span class="text-primary font-bold">49.99 €</span>
-                        <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors duration-200">
-                            En savoir plus
-                        </button>
+                        <a href="auth/login.php" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors duration-200">
+                            S'inscrire au cours
+                        </a>
                     </div>
                 </div>
             </div>
+            <?php endforeach; ?>
+            
+            <?php if(empty($current_courses)): ?>
+            <div class="col-span-3 text-center py-8">
+                <p class="text-neutral text-lg">Aucun cours disponible pour le moment.</p>
+            </div>
+            <?php endif; ?>
+        </div>
 
-            <!-- Carte de cours 2 -->
-            <div class="bg-base-100 rounded-xl shadow-md overflow-hidden transition-transform duration-300 hover:scale-105">
-                <img src="https://www.tailwindai.dev/placeholder.svg" alt="Master Python" class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">Programmation</span>
-                        <div class="flex items-center">
-                            <i class="fas fa-star text-yellow-400"></i>
-                            <span class="ml-1 text-neutral">4.7</span>
-                        </div>
-                    </div>
-                    <h3 class="text-xl font-bold text-neutral mb-2">Master Python</h3>
-                    <p class="text-neutral text-sm mb-4">Devenez un expert en Python avec des projets pratiques.</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-primary font-bold">59.99 €</span>
-                        <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors duration-200">
-                            En savoir plus
+        <!-- Pagination -->
+        <div id="pagination-container" class="flex justify-center mt-8 space-x-2">
+            <?php if($total_pages > 1): ?>
+                <div class="flex space-x-2">
+                    <?php if($current_page > 1): ?>
+                        <button onclick="changePage(<?php echo $current_page - 1; ?>)" class="px-4 py-2 rounded-lg bg-base-100 text-neutral hover:bg-primary/10">
+                            Précédent
                         </button>
-                    </div>
-                </div>
-            </div>
+                    <?php endif; ?>
 
-            <!-- Carte de cours 3 -->
-            <div class="bg-base-100 rounded-xl shadow-md overflow-hidden transition-transform duration-300 hover:scale-105">
-                <img src="https://www.tailwindai.dev/placeholder.svg" alt="Design UX/UI" class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">Design</span>
-                        <div class="flex items-center">
-                            <i class="fas fa-star text-yellow-400"></i>
-                            <span class="ml-1 text-neutral">4.8</span>
-                        </div>
-                    </div>
-                    <h3 class="text-xl font-bold text-neutral mb-2">Design UX/UI Moderne</h3>
-                    <p class="text-neutral text-sm mb-4">Créez des interfaces utilisateur exceptionnelles.</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-primary font-bold">69.99 €</span>
-                        <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors duration-200">
-                            En savoir plus
+                    <?php for($i = 1; $i <= $total_pages; $i++): ?>
+                        <button onclick="changePage(<?php echo $i; ?>)" 
+                                class="px-4 py-2 rounded-lg <?php echo $current_page === $i ? 'bg-primary text-white' : 'bg-base-100 text-neutral hover:bg-primary/10'; ?>">
+                            <?php echo $i; ?>
                         </button>
-                    </div>
+                    <?php endfor; ?>
+
+                    <?php if($current_page < $total_pages): ?>
+                        <button onclick="changePage(<?php echo $current_page + 1; ?>)" class="px-4 py-2 rounded-lg bg-base-100 text-neutral hover:bg-primary/10">
+                            Suivant
+                        </button>
+                    <?php endif; ?>
                 </div>
-            </div>
+            <?php endif; ?>
         </div>
     </div>
 </section>
+
 
 <!-- Section Nos Partenaires -->
 <section class="py-16 bg-base-100">
@@ -419,6 +448,49 @@
     mobileMenuButton.addEventListener('click', () => {
         mobileMenu.classList.toggle('hidden');
     });
+    // Function to change page
+function changePage(newPage) {
+    // Create a new URL with the updated page parameter
+    const url = new URL(window.location.href);
+    url.searchParams.set('page', newPage);
+    
+    // Update the URL without refreshing the page
+    window.history.pushState({}, '', url);
+    
+    // Fetch new content
+    fetch(url)
+        .then(response => response.text())
+        .then(html => {
+            // Create a temporary container
+            const temp = document.createElement('div');
+            temp.innerHTML = html;
+            
+            // Extract the courses grid content
+            const newCoursesGrid = temp.querySelector('#courses-grid');
+            const newPagination = temp.querySelector('#pagination-container');
+            
+            // Update the content
+            if(newCoursesGrid) {
+                document.querySelector('#courses-grid').innerHTML = newCoursesGrid.innerHTML;
+            }
+            if(newPagination) {
+                document.querySelector('#pagination-container').innerHTML = newPagination.innerHTML;
+            }
+            
+            // Scroll to courses section smoothly
+            document.querySelector('#courses-section').scrollIntoView({ behavior: 'smooth' });
+        })
+        .catch(error => {
+            console.error('Error fetching page:', error);
+        });
+}
+
+// Add event listener for browser back/forward buttons
+window.addEventListener('popstate', () => {
+    const url = new URL(window.location.href);
+    const page = url.searchParams.get('page') || 1;
+    changePage(page);
+});
 </script>
 
 </body>
